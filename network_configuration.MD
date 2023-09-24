@@ -188,3 +188,39 @@ Group must be empty before deleting.
 root@solaris:~# ipadm delete-ipmp ipmp_1
 ipadm: cannot delete IPMP interface ipmp_1: IPMP group is not empty
 ```
+
+## Creating virtual network interface card (VNIC)
+
+1. To create a VNIC 
+```
+dladm create-vnic -l <physical_link_name> <VINC_name>
+```
+```
+root@solaris:~# dladm create-vnic -l net0 vnic1
+```
+
+2. To check created VNIC
+```
+root@solaris:~# dladm show-link
+LINK                CLASS     MTU    STATE    OVER
+net0                phys      1500   up       --
+net1                phys      1500   up       --
+```
+
+3. To bring it in down state 
+```
+ipadm create-ip <VNIC_name>
+```
+```
+root@solaris:~# ipadm create-ip vnic1
+```
+
+4. To delete VNIC 
+Before deleting a VNIC it must be empay and must not be in down or in OK state.
+```
+dladm delete-vnic <VNIC_name>
+```
+```
+root@solaris:~# dladm delete-vnic vnic1
+dladm: vnic deletion failed: link busy
+```
